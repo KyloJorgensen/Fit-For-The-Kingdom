@@ -1,0 +1,83 @@
+nav {
+	position: fixed;
+	width: 100%;
+	height: 4rem;
+    background-color: #bebedc;
+    margin: -16px -8px;
+}
+
+nav * {
+	display: inline-block;
+}
+
+.nav-title {
+	float: left;
+	padding-left: 4rem;
+}
+
+.nav-menu {
+	float: right;
+	padding: 1.3rem;
+}
+
+main {
+	padding: 50px 0px;
+}
+
+.toggle {
+	display: none;
+}
+
+
+
+main ul {
+	list-style: none;
+	padding-left: 0px;
+}
+
+.user ul {
+	padding-left: 0px;
+	display: inline-block;
+	width: 100%;
+}
+
+.users > div {
+	width: 40%;
+	display: inline-block;
+}
+
+.users-names button {
+	padding: 0px 65px;
+	margin: 3px 0;
+}
+
+.user p {
+	display: inline-block;
+	width: 10%;
+}
+
+.user-menu * {
+	display: inline-block;
+	padding-right: 20px;
+}
+
+.userDate .userDate-button-delete {
+	float: right;
+}
+
+footer {
+	background-color: grey;
+	position: fixed;
+	bottom: 0px;
+	margin: 0 -8px;
+	width: 100%;
+}
+
+.container {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.admin {
+	display: none;
+}
