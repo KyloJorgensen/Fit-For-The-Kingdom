@@ -5,7 +5,7 @@ var express = require('express'),
 	path = require('path'),
     variables = require('./config/variables.express'),
     mainRouter = require('./api/main/main.router'),
-    userRouter = require('./api/user/user.router'),
+    userRouter = require('./api/user/user.router');
 
 require('./config/mongoose.connection');
 require('./config/config.express')(app);
