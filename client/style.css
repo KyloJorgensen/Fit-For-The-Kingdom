@@ -28,8 +28,6 @@ main {
 	display: none;
 }
 
-
-
 main ul {
 	list-style: none;
 	padding-left: 0px;
@@ -42,7 +40,7 @@ main ul {
 }
 
 .users > div {
-	width: 40%;
+	width: 30%;
 	display: inline-block;
 }
 
