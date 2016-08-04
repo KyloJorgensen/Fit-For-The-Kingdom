@@ -90,14 +90,10 @@ var ViewModel = function(Data) {
 		$('.users').show();
 	};
 
-	this.winnerstand = ko.observableArray([
-			{name: '', score: 0},
-			{name: '', score: 0},
-			{name: '', score: 0}
-		]);
+	this.winnerstand = ko.observableArray([]);
 
 	this.updatewinnerStand = function() {
-		var winnerstand = [	{name: '', score: 1}, {name: '', score: 0}, {name: '', score: 0}];
+		var winnerstand = [	{name: '', score: 0}, {name: '', score: 0}, {name: '', score: 0}];
 		for (var i = 0; i < self.users().length; i++) {
 			if (self.users()[i].totalScore >= winnerstand[0].score) {
 				winnerstand[2].name = winnerstand[1].name;
