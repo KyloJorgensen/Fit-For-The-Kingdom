@@ -91,7 +91,7 @@ var ViewModel = function(Data) {
 	};
 
 	this.winnerstand = ko.observableArray([
-			{name: '', score: 1},
+			{name: '', score: 0},
 			{name: '', score: 0},
 			{name: '', score: 0}
 		]);
