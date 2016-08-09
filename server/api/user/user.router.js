@@ -13,15 +13,3 @@ router.get('/', controller.getUsers)
     .put('/', controller.updateUser)
 
 module.exports = router;
-
-// router.get('/:name', function(req, res) {
-// 	for (var i = 0; i < users.length; i++) {
-// 		console.log(users[i].name);
-// 		console.log(req.params);
-// 		if (users[i].name == req.params.name) {
-			
-// 			res.json(users[i]);
-// 			return;
-// 		}
-//  	}
-// });

@@ -11,9 +11,6 @@ require('./config/mongoose.connection');
 require('./config/config.express')(app);
 require('./config/routes.express')(app);
 
-app.use('/', mainRouter);
-app.use('/user', userRouter);
-
 app.listen(variables.EXPRESS_PORT, function () {
     console.log(variables.EXPRESS_LISTEN_MESSAGE + variables.EXPRESS_PORT);
 });
