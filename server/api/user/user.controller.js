@@ -30,18 +30,9 @@ UserController.prototype.createUser = function(req, res) {
     User.create({
         name: req.body.name,
         totalScore: 0,
-        day: [
-        	{
-        		date:req.body.date,
-        		exercise: 0,
-        		sugar: false,
-        		soda: false,
-        		healthyChoice: 0,
-        		satisfied: 0,
-        		score: 0
-        	}
-        ]
+        day: []
     }, function(error, user) {
+        console.log(user);
         if (error) {
             console.log(error);
         } else {
@@ -112,6 +103,21 @@ UserController.prototype.updateUser = function(req, res) {
     });
 };
 
-
+UserController.prototype.deleteUserDate = function(req, res) {
+    return new Promise(function(resolve, reject) {
+        console.log(req.body.id);
+        User.findOneAndRemove({_id: req.body.id}, function(error, date) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(date);
+            }
+        });
+    }).then(function(date) {
+        res.status(200).end();
+    }).catch(function(error) {
+        res.status(500).end();
+    });
+};
 
 module.exports = UserController.prototype;

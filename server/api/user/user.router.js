@@ -10,6 +10,7 @@ router.get('/', controller.getUsers)
     .put('/', controller.updateUser)
     .get('/:name', controller.getUser)
     .delete('/:name', controller.deleteUser)
+    .delete('/', controller.deleteUserDate)
     .put('/', controller.updateUser)
 
 module.exports = router;

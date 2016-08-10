@@ -45,6 +45,9 @@ main ul {
 	width: 100%;
 }
 
+.user-names ul li {
+	margin: 16px 0px}
+
 .users > div {
 	width: 30%;
 	display: inline-block;

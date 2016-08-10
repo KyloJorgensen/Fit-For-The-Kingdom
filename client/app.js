@@ -67,7 +67,24 @@ var Data = function(self) {
 	    }).fail(function(error){
 	        console.log(error);
 	    });
-	}
+	};
+
+	this.deleteUserDate = function(id) {
+		var data = {};
+		data.id = id;
+
+		$.ajax({
+		    type: 'DELETE',
+		    data: JSON.stringify(data),
+		    contentType: 'application/json',
+		    url: '/user'
+		}).done(function(user) {
+			console.log(user);
+	    	// self.generateUser(user);
+	    }).fail(function(error){
+	        console.log(error);
+	    });
+	};
 };
 
 var ViewModel = function(Data) {
@@ -217,12 +234,15 @@ var ViewModel = function(Data) {
 	}
 
 	this.deleteUserDate = function() {
-		for (var i = 0; i < self.currentUser()[0].day.length; i++) {
-			if (self.currentUser()[0].day[i].date == self.currentUserDate()[0].date) {
-				self.currentUser()[0].day.splice(i, 1);
-			}
-		}
-		self.updateUser();
+		console.log(self.currentUserDate()[0]._id);
+		data.deleteUserDate(self.currentUserDate()[0]._id);
+
+		// for (var i = 0; i < self.currentUser()[0].day.length; i++) {
+		// 	if (self.currentUser()[0].day[i].date == self.currentUserDate()[0].date) {
+		// 		self.currentUser()[0].day.splice(i, 1);
+		// 	}
+		// }
+		// self.updateUser();
 	}
 
 	this.validateDateInputs = function() {
