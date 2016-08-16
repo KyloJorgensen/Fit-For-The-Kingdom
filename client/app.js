@@ -338,7 +338,7 @@ var ViewModel = function(Data) {
 		self.currentUserDate.push(currentDate);
 	};
 
-	this.updateDays = function() {		// console.log(self.users());
+	this.updateDays = function() {
 		var users = self.users();
 		for (var i = 0; i < users.length; i++) {
 			var userId = users[i]._id;
