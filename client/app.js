@@ -120,12 +120,12 @@ var Data = function(self) {
 	};
 
 
-	this.updateDays = function(data) {
+	this.updateDays = function(date) {
 		$.ajax({
 		    type: 'POST',
-		    data: JSON.stringify(data),
+		    data: JSON.stringify(date),
 		    contentType: 'application/json',
-		    url: '/date' 
+		    url: '/date/updateDays' 
 		}).done(function(date) {
 			console.log(date);
 	    }).fail(function(error) {
@@ -339,14 +339,14 @@ var ViewModel = function(Data) {
 	};
 
 	this.updateDays = function() {
-		console.log('works');
-		console.log(self.users());
+		// console.log('works');
+		// console.log(self.users());
 		var users = self.users();
 		for (var i = 0; i < users.length; i++) {
 			var userId = users[i]._id;
-			console.log(users[i]);
+			// console.log(users[i]);
 			for (var h = 0; h < users[i].day.length; h++) {
-				console.log(users[i].day[h]);
+				// console.log(users[i].day[h]);
 				var date = {};
 				date._author = userId;
 				date.date = users[i].day[h].date;
@@ -355,7 +355,7 @@ var ViewModel = function(Data) {
 				date.soda = users[i].day[h].soda;
 				date.healthyChoice = users[i].day[h].healthyChoice;
 				date.satisfied = users[i].day[h].satisfied;
-				console.log(date);
+				console.log('date data:', date);
 				data.updateDays(date);
 			}
 		}

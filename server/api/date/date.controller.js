@@ -224,9 +224,10 @@ DateController.prototype.deleteDate = function(req, res) {
 };
 
 DateController.prototype.updateDays = function(req, res) {
-
 	return new Promise(function(resolve, reject) {
-	   	Date.create(req.body.date, function(err, date) {
+		var date = req.body.date;
+		console.log(date);
+	   	Date.create(date, function(err, date) {
 	  	    if (err) {
 	       		reject(err);
 	        } else {
