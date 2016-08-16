@@ -344,8 +344,9 @@ var ViewModel = function(Data) {
 		var users = self.users();
 		for (var i = 0; i < users.length; i++) {
 			var userId = users[i]._id;
+			console.log(users[i]);
 			for (var h = 0; h < users[i].day.length; h++) {
-				users[i].day[h]
+				console.log(users[i].day[h]);
 				var date = {};
 				date._author = userId;
 				date.date = users[i].day[h].date;
