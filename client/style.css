@@ -30,6 +30,10 @@ main {
 	padding: 50px 0px;
 }
 
+main .container {
+	min-height: 150px;
+}
+
 .toggle {
 	display: none;
 }
@@ -45,20 +49,41 @@ main ul {
 	width: 100%;
 }
 
-.user-names ul li {
-	margin: 16px 0px}
+.users-table {
+	width: 60%;
+	display: inline-block;
+}
 
-.users > div {
+.users-names ul li {
+	margin: 8px 0px;
+}
+
+.users-winnerStand {
+	float: right;
 	width: 30%;
 	display: inline-block;
 }
 
-.users-names button {
-	padding: 0px 65px;
-	margin: 3px 0;
+.users-names {
+	float: left;
+	width: 100%;
 }
 
-.user p {
+.users-names > * {
+	width: 49%;
+	display: inline-block;
+}
+
+.users-names button {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	margin: 3px 0;
+	width: 100%;
+}
+
+.user-header p,
+.user-table p{
 	display: inline-block;
 	width: 10%;
 }
@@ -66,6 +91,7 @@ main ul {
 .user-menu * {
 	display: inline-block;
 	padding-right: 20px;
+	width: 20%;
 }
 
 .userDate .userDate-button-delete {

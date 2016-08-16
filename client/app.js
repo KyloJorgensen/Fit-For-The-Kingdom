@@ -32,11 +32,11 @@ var Data = function(self) {
 	    });
 	};
 
-	this.getUser = function(name) {
+	this.getUser = function(userId) {
 		$.ajax({
 		    type: 'GET',
 		    contentType: 'application/json',
-		    url: '/user/' + name 
+		    url: '/user/' + userId 
 		}).done(function(user) {
 	    	self.generateUser(user);
 	    }).fail(function(error){
@@ -44,24 +44,56 @@ var Data = function(self) {
 	    });
 	};
 
-	this.updateUser = function(data) {
+	this.getUserDates = function(user) {
 		$.ajax({
-		    type: 'PUT',
+		    type: 'GET',
+		    contentType: 'application/json',
+		    url: '/date/user/' + user._id 
+		}).done(function(date) {
+	    	self.generateUserDates(date);
+	    }).fail(function(error){
+	        console.log(error);
+	    });
+	};
+
+	this.createDate = function(userId, date) {
+		var data = {};
+		data.userId = userId;
+		data.date = date;
+		$.ajax({
+		    type: 'POST',
 		    data: JSON.stringify(data),
 		    contentType: 'application/json',
-		    url: '/user'
+		    url: '/date' 
+		}).done(function(date) {
+			self.editDate(date);
+	    }).fail(function(error){
+	    	if (error.readyState == 4) {
+	    		alert(error.responseText);
+	    	} else {
+	    		console.log(error);
+	    	}
+	    });
+	};
+
+	this.updateDate = function(date) {
+		$.ajax({
+		    type: 'PUT',
+		    data: JSON.stringify(date),
+		    contentType: 'application/json',
+		    url: '/date'
 		}).done(function(user) {
-	    	self.generateUser(user);
+			self.generateUser(user);
 	    }).fail(function(error){
 	        console.log(error);
 	    });
 	};
 
-	this.deleteUser = function(name) {
+	this.deleteUser = function(userId) {
 		$.ajax({
 		    type: 'DELETE',
 		    contentType: 'application/json',
-		    url: '/user/' + name
+		    url: '/user/' + userId
 		}).done(function(users) {
 	    	that.getUsers();
 	    }).fail(function(error){
@@ -69,18 +101,19 @@ var Data = function(self) {
 	    });
 	};
 
-	this.deleteUserDate = function(id) {
+	this.deleteUserDate = function(userId, dateId) {
 		var data = {};
-		data.id = id;
+		data.dateId = dateId;
+		data._author = userId;
 
 		$.ajax({
 		    type: 'DELETE',
 		    data: JSON.stringify(data),
 		    contentType: 'application/json',
-		    url: '/user'
+		    url: '/date'
 		}).done(function(user) {
 			console.log(user);
-	    	// self.generateUser(user);
+			self.generateUser(user);
 	    }).fail(function(error){
 	        console.log(error);
 	    });
@@ -110,7 +143,7 @@ var ViewModel = function(Data) {
 	this.winnerstand = ko.observableArray([]);
 
 	this.updatewinnerStand = function() {
-		var winnerstand = [	{name: '', score: 0}, {name: '', score: 0}, {name: '', score: 0}];
+		var winnerstand = [	{name: 'none', score: 0}, {name: 'none', score: 0}, {name: 'none', score: 0}];
 		for (var i = 0; i < self.users().length; i++) {
 			if (self.users()[i].totalScore >= winnerstand[0].score) {
 				winnerstand[2].name = winnerstand[1].name;
@@ -164,20 +197,29 @@ var ViewModel = function(Data) {
 	};
 
 	this.currentUser = ko.observableArray([]);
+	this.currentDates = ko.observableArray([]);
 
-	this.getUser = function(name) {
-		data.getUser(name.name);
+	this.getUser = function(user) {
+		data.getUser(user._id);
 	};
 
 	this.generateUser = function(user) {
 		self.currentUser.splice(0, self.currentUser().length);
 		self.currentUser.push(user);
+		data.getUserDates(user);
 		self.hideAllInMain();
 		$('.user').show();
 	};
 
+	this.generateUserDates = function(dates) {
+		self.currentDates.splice(0, self.currentDates().length);
+		for (var i = 0; i < dates.length; i++) {
+			self.currentDates.push(dates[i]);
+		}
+	};
+
 	this.deleteUser = function() {
-		data.deleteUser(self.currentUser()[0].name);
+		data.deleteUser(self.currentUser()[0]._id);
 	};
 
 	this.currentUserDate = ko.observableArray([]);
@@ -210,40 +252,14 @@ var ViewModel = function(Data) {
 	};
 
 	this.addNewUserDate = function() {
-
-		var day = {};
-		day.date = self.newUserDate();
-		day.exercise = 0;
-		day.healthyChoice = 0;
-		day.satisfied = 0;
-		day.score = 0;
-		day.soda = false;
-		day.sugar = false;
-
-		for (var i = 0; i < self.currentUser()[0].day.length; i++) {
-			if (self.currentUser()[0].day[i].date == day.date) {
-				alert(day.date + ' already exists. Use another date.')
-				return;
-			}
-		}
-		self.currentUser()[0].day.push(day);
-		self.currentUserDate.splice(0, self.currentUserDate().length);
-		self.currentUserDate.push(self.currentUser()[0].day[self.currentUser()[0].day.length - 1]);
-		self.hideAllInMain();
-		$('.userDate').show();
-	}
+		data.createDate(self.currentUser()[0]._id, self.newUserDate());
+	};
 
 	this.deleteUserDate = function() {
-		console.log(self.currentUserDate()[0]._id);
-		data.deleteUserDate(self.currentUserDate()[0]._id);
+		var date = self.currentUserDate()[0];
 
-		// for (var i = 0; i < self.currentUser()[0].day.length; i++) {
-		// 	if (self.currentUser()[0].day[i].date == self.currentUserDate()[0].date) {
-		// 		self.currentUser()[0].day.splice(i, 1);
-		// 	}
-		// }
-		// self.updateUser();
-	}
+		data.deleteUserDate(date._author, date._id);
+	};
 
 	this.validateDateInputs = function() {
 		event.preventDefault();
@@ -283,7 +299,7 @@ var ViewModel = function(Data) {
 			alert('sugar needs to be true or false');
 			return;
 		}
-		self.updateUser();
+		data.updateDate(self.currentUserDate()[0]);
 	};
 
 	this.updateUser = function() {
@@ -310,7 +326,34 @@ var ViewModel = function(Data) {
 			self.currentUser()[0].day[i].score = score;
 			self.currentUser()[0].totalScore += score;
 		}
-	}
+	};
+
+	this.clickedSugar = function() {
+		var currentDate = self.currentUserDate()[0];
+		if (currentDate.sugar) {
+			currentDate.sugar = false;
+		} else {
+			currentDate.sugar = true;
+		}
+		self.currentUserDate.splice(0, self.currentUser().length);
+		self.currentUserDate.push(currentDate);
+	};
+	
+	this.clickedSoda = function(thing) {
+		var currentDate = self.currentUserDate()[0];
+		if (currentDate.soda) {
+			currentDate.soda = false;
+		} else {
+			currentDate.soda = true;
+		}
+		self.currentUserDate.splice(0, self.currentUser().length);
+		self.currentUserDate.push(currentDate);
+	};
+
+	this.updateDays = function() {
+		console.log('works');
+		console.log(self.users())
+	};
 
 	data.getUsers(true);
 };

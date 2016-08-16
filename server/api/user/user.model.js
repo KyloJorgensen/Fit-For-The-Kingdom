@@ -1,23 +1,14 @@
-var mongoose = require('mongoose');
+'use strict';
 
 var mongoose = require('mongoose');
-
-
-var dateSchema = mongoose.Schema({
-    user_id: String,
-    date: String,
-    exercise: Number,
-    sugar: Boolean,
-    soda: Boolean,
-    healthyChoice: Number,
-    satisfied: Number,
-    score: Number
-});
 
 var userSchema = mongoose.Schema({
     name: String,
     totalScore: Number,
-    day: [dateSchema]
+    dates: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Date'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -6,11 +6,8 @@ var controller = require('./user.controller');
 
 
 router.get('/', controller.getUsers)
+    .get('/:userId', controller.getUser)
     .post('/', controller.createUser)
-    .put('/', controller.updateUser)
-    .get('/:name', controller.getUser)
-    .delete('/:name', controller.deleteUser)
-    .delete('/', controller.deleteUserDate)
-    .put('/', controller.updateUser)
+    .delete('/:userId', controller.deleteUser)
 
 module.exports = router;

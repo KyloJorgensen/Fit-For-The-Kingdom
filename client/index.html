@@ -19,23 +19,23 @@
 		<div class="container">
 
 			<div class="users toggle">
-				<div class="users-names">
-					<p>Names</p>
-					<ul data-bind="foreach: users">
-						<li>
-							<button data-bind="click: $parent.getUser"><span data-bind="text: name"></span></button>
-						</li>
-					</ul>
+				<div class="users-table">
+					<div class="users-names">
+						<p>Names</p>
+						<p>Score</p>
+						<ul data-bind="foreach: users">
+							<li>
+								<button data-bind="click: $parent.getUser"><span data-bind="text: name"></span></button>
+							</li>
+						</ul>
+						<ul data-bind="foreach: users">
+							<li>
+								<p data-bind="text: totalScore"></p>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="users-totalScore">
-					<p>Score</p>
-					<ul data-bind="foreach: users">
-						<li>
-							<p data-bind="text: totalScore"></p>
-						</li>
-					</ul>
-				</div>
-				<div class="winnerStand">
+				<div class="users-winnerStand">
 					<h2>Winners Stand</h2>
 					<ol type="I" data-bind="foreach: winnerstand">
 						<li>
@@ -60,7 +60,7 @@
 					<button data-bind="click: $root.veiwAddNewUserDate">New Date</button>	
 					<button class="admin deleteUserButton" data-bind="click: $root.deleteUser">Delete User</button>					
 				</div>
-				<div>
+				<div class="user-header">
 					<p>Date</p>
 					<p>Exercise</p>	
 					<p>No sugar</p>
@@ -69,7 +69,7 @@
 					<p>Satisfied</p>						
 					<p>Day's Score</p>	
 				</div>
-				<ul data-bind="foreach: day">
+				<ul class="user-table" data-bind="foreach: $root.currentDates">
 					<li>
 						<p data-bind="text: date"></p>
 						<p data-bind="text: exercise"></p>
@@ -94,8 +94,8 @@
 							<p>Exercise: <input id="exercise" data-bind="value: exercise" />(+1 for every 10mins)</p>
 							<p>Healthy Choice: <input id="healthyChoice" data-bind="value: healthyChoice" />(number)</p>
 							<p>Satisfied: <input id="satisfied" data-bind="value: satisfied" />(0-3)</p>
-							<p>No Soda <input id="soda" data-bind="value: soda" />(true or false)</p>
-							<p>No Sugar <input id="sugar" data-bind="value: sugar" />(true or false)</p>
+							<p>No Soda <input type="button" id="soda" data-bind="value: soda, click: $root.clickedSoda" />(true or false)</p>
+							<p>No Sugar <input type="button" id="sugar" data-bind="value: sugar, click: $root.clickedSugar" />(true or false)</p>
 							<button type="submit">SAVE</button>
 							<button class="userDate-button-delete" data-bind="click: $root.deleteUserDate">DELETE</button>
 						</form>
@@ -120,6 +120,7 @@
 	<footer>
 		<div>
 			<p></p>
+			<button data-bind="click: updateDays">update</button>
 		</div>
 	</footer>
 	<!-- footer -->
