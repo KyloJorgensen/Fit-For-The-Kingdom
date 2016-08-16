@@ -118,6 +118,20 @@ var Data = function(self) {
 	        console.log(error);
 	    });
 	};
+
+
+	this.updateDays = function(data) {
+		$.ajax({
+		    type: 'POST',
+		    data: JSON.stringify(data),
+		    contentType: 'application/json',
+		    url: '/date' 
+		}).done(function(date) {
+			console.log(date);
+	    }).fail(function(error) {
+    		console.log(error);
+	    });
+	};
 };
 
 var ViewModel = function(Data) {
@@ -302,32 +316,6 @@ var ViewModel = function(Data) {
 		data.updateDate(self.currentUserDate()[0]);
 	};
 
-	this.updateUser = function() {
-		self.updateUserScore();
-		data.updateUser(self.currentUser()[0]);
-	};
-
-	this.updateUserScore = function() {
-		self.currentUser()[0].totalScore = 0;
-		for (var i = 0; i < self.currentUser()[0].day.length; i++) {
-			var score = 0;
-			score += self.currentUser()[0].day[i].exercise * 2;
-			score += self.currentUser()[0].day[i].healthyChoice;
-			score += self.currentUser()[0].day[i].satisfied;
-			if (self.currentUser()[0].day[i].sugar) {
-				score += 2;
-			}
-			if (self.currentUser()[0].day[i].soda) {
-				score += 2;
-			}
-			if (self.currentUser()[0].day[i].exercise && self.currentUser()[0].day[i].sugar && self.currentUser()[0].day[i].soda && self.currentUser()[0].day[i].healthyChoice && self.currentUser()[0].day[i].satisfied) {
-				score *= 2;
-			}
-			self.currentUser()[0].day[i].score = score;
-			self.currentUser()[0].totalScore += score;
-		}
-	};
-
 	this.clickedSugar = function() {
 		var currentDate = self.currentUserDate()[0];
 		if (currentDate.sugar) {
@@ -352,7 +340,24 @@ var ViewModel = function(Data) {
 
 	this.updateDays = function() {
 		console.log('works');
-		console.log(self.users())
+		console.log(self.users());
+		var users = self.users();
+		for (var i = 0; i < users.length; i++) {
+			var userId = users[i]._id;
+			for (var h = 0; h < users[i].day.length; h++) {
+				users[i].day[h]
+				var date = {};
+				date._author = userId;
+				date.date = users[i].day[h].date;
+				date.exercise = users[i].day[h].exercise;
+				date.sugar = users[i].day[h].sugar;
+				date.soda = users[i].day[h].soda;
+				date.healthyChoice = users[i].day[h].healthyChoice;
+				date.satisfied = users[i].day[h].satisfied;
+				console.log(date);
+				data.updateDays(date);
+			}
+		}
 	};
 
 	data.getUsers(true);

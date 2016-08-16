@@ -223,4 +223,21 @@ DateController.prototype.deleteDate = function(req, res) {
 	});
 };
 
+DateController.prototype.updateDays = function(req, res) {
+
+	return new Promise(function(resolve, reject) {
+	   	Date.create(req.body.date, function(err, date) {
+	  	    if (err) {
+	       		reject(err);
+	        } else {
+				resolve(date);
+			}
+	   	});
+	}).then(function(date) {
+	  	res.status(201).json(date);
+	}).catch(function(error) {
+	    res.status(500).json(error);
+	});
+};
+
 module.exports = DateController.prototype;
