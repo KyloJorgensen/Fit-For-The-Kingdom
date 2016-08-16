@@ -10,6 +10,5 @@ router.get('/user/:userId', controller.getUserDates)
 	.post('/', controller.createDate)
 	.put('/', controller.updateDate)
 	.delete('/', controller.deleteDate)
-	.post('/updateDays', controller.updateDays)
 
 module.exports = router;

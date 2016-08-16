@@ -118,20 +118,6 @@ var Data = function(self) {
 	        console.log(error);
 	    });
 	};
-
-
-	this.updateDays = function(date) {
-		$.ajax({
-		    type: 'POST',
-		    data: JSON.stringify(date),
-		    contentType: 'application/json',
-		    url: '/date/updateDays' 
-		}).done(function(date) {
-			console.log(date);
-	    }).fail(function(error) {
-    		console.log(error);
-	    });
-	};
 };
 
 var ViewModel = function(Data) {
@@ -336,28 +322,6 @@ var ViewModel = function(Data) {
 		}
 		self.currentUserDate.splice(0, self.currentUser().length);
 		self.currentUserDate.push(currentDate);
-	};
-
-	this.updateDays = function() {
-		var users = self.users();
-		for (var i = 0; i < users.length; i++) {
-			var userId = users[i]._id;
-			// console.log(users[i]);
-			for (var h = 0; h < users[i].day.length; h++) {
-				// console.log(users[i].day[h]);
-				var date = {};
-				date._author = userId;
-				date.date = users[i].day[h].date;
-				date.exercise = users[i].day[h].exercise;
-				date.sugar = users[i].day[h].sugar;
-				date.soda = users[i].day[h].soda;
-				date.healthyChoice = users[i].day[h].healthyChoice;
-				date.satisfied = users[i].day[h].satisfied;
-				date.score = 0;
-				console.log('date data:', date);
-				data.updateDays(date);
-			}
-		}
 	};
 
 	data.getUsers(true);

@@ -195,7 +195,6 @@ DateController.prototype.deleteDate = function(req, res) {
 			for (var i = 0; i < dates.length; i++) {
 				totalScore += dates[i].score;
 			}
-			console.log(totalScore);
 			return new Promise(function(resolve, reject) {
 				User.findOneAndUpdate({
 					_id: req.body._author
@@ -220,24 +219,6 @@ DateController.prototype.deleteDate = function(req, res) {
 		});
 	}).catch(function(error) {
 		res.status(500).json(error);
-	});
-};
-
-DateController.prototype.updateDays = function(req, res) {
-	return new Promise(function(resolve, reject) {
-		var date = req.body;
-		console.log(date);
-	   	Date.create(date, function(err, date) {
-	  	    if (err) {
-	       		reject(err);
-	        } else {
-				resolve(date);
-			}
-	   	});
-	}).then(function(date) {
-	  	res.status(201).json(date);
-	}).catch(function(error) {
-	    res.status(500).json(error);
 	});
 };
 
