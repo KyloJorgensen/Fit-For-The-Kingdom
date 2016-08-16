@@ -355,6 +355,7 @@ var ViewModel = function(Data) {
 				date.soda = users[i].day[h].soda;
 				date.healthyChoice = users[i].day[h].healthyChoice;
 				date.satisfied = users[i].day[h].satisfied;
+				date.score = 0;
 				console.log('date data:', date);
 				data.updateDays(date);
 			}
