@@ -1,6 +1,7 @@
 'use strict';
 var Date = require('../date/date.model'),
-    User = require('./user.model');
+    User = require('./user.model'),
+    bcrypt = require('bcryptjs');
 
 function UserController() {};
 
@@ -100,21 +101,41 @@ UserController.prototype.addUandP = function(req, res) {
         });
     }).then(function(users) {
         var newUsers = [];
+        // console.log(users);
         for (var i = 0; i < users.length; i++) {
-            User.findOneAndUpdate({
-                _id: users[i]._id
-            }, {
-                $set: {
-                    username: users[i].name,
-                    password: users[i].name,
-                    publicStatus: true
-                }
-            }, function(err, user) {
+            // console.log(users[i] || 'error');
+            var user = users[i];
+            bcrypt.genSalt(10, function(err, salt) {
                 if (err) {
-                    console.log(err);
+                    console.log({
+                        message: 'Internal server error'
+                    });
                 }
-                newUsers.push(user);
-            });
+                bcrypt.hash(user.name, salt, function(err, hash) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Internal server error'
+                        });
+                    }
+
+                    User.findOneAndUpdate({
+                        _id: user._id
+                    }, {
+                        $set: {
+                            username: user.name,
+                            password: hash,
+                            publicStatus: true
+                        }
+                    }, function(err, newuser) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        newUsers.push(newuser);
+                    });
+
+                    console.log(user, hash);
+                });
+            });         
         }
         res.status(200).json(newUsers);
     }).catch(function(error) {

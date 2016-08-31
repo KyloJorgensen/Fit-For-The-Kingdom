@@ -9,6 +9,7 @@
   "author": "Kylo Jorgensen <kylo.j.jorgensen@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
