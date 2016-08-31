@@ -89,4 +89,37 @@ UserController.prototype.deleteUser = function(req, res) {
     });
 };
 
+UserController.prototype.addUandP = function(req, res) {
+    return new Promise(function(resolve, reject) {
+        User.find({}, function(error, users) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(users);
+            }
+        });
+    }).then(function(users) {
+        var newUsers = [];
+        for (var i = 0; i < users.length; i++) {
+            User.findOneAndUpdate({
+                _id: users[i]._id
+            }, {
+                $set: {
+                    username: users[i].name,
+                    password: users[i].name,
+                    publicStatus: true
+                }
+            }, function(err, user) {
+                if (err) {
+                    console.log(err);
+                }
+                newUsers.push(user);
+            });
+        }
+        res.status(200).json(newUsers);
+    }).catch(function(error) {
+        res.status(500).json(error);
+    });
+};
+
 module.exports = UserController.prototype;

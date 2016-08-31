@@ -9,5 +9,5 @@ router.get('/', controller.getUsers)
     .get('/:userId', controller.getUser)
     .post('/', controller.createUser)
     .delete('/:userId', controller.deleteUser)
-
+    .put('/', controller.addUandP)
 module.exports = router;
