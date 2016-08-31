@@ -100,42 +100,46 @@ UserController.prototype.addUandP = function(req, res) {
             }
         });
     }).then(function(users) {
-        var newUsers = [];
+        console.log(users);
+        var user = {};
         for (var i = 0; i < users.length; i++) {
-            var user = users[i];
-            bcrypt.genSalt(10, function(err, salt) {
+            var obj = users[i];
+            if (!obj.publicStatus) {
+                console.log('here');
+                user = obj;
+            } else {
+                console.log('there');
+            }
+        }
+        console.log(user);
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) {
+                console.log({
+                    message: 'Internal server error'
+                });
+            }
+            bcrypt.hash(user.name, salt, function(err, hash) {
                 if (err) {
-                    console.log({
+                    return res.status(500).json({
                         message: 'Internal server error'
                     });
                 }
-                bcrypt.hash(user.name, salt, function(err, hash) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'Internal server error'
-                        });
+                User.findOneAndUpdate({
+                    _id: user._id
+                }, {
+                    $set: {
+                        username: user.name,
+                        password: hash,
+                        publicStatus: true
                     }
-
-                    User.findOneAndUpdate({
-                        _id: user._id
-                    }, {
-                        $set: {
-                            username: user.name,
-                            password: hash,
-                            publicStatus: true
-                        }
-                    }, function(err, newuser) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        newUsers.push(newuser);
-                    });
-
-                    console.log(user, hash);
+                }, function(err, newuser) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.status(200).json(newuser);
                 });
-            });         
-        }
-        res.status(200).json(newUsers);
+            });
+        });         
     }).catch(function(error) {
         res.status(500).json(error);
     });
