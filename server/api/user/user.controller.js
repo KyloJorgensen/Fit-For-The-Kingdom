@@ -101,9 +101,7 @@ UserController.prototype.addUandP = function(req, res) {
         });
     }).then(function(users) {
         var newUsers = [];
-        // console.log(users);
         for (var i = 0; i < users.length; i++) {
-            // console.log(users[i] || 'error');
             var user = users[i];
             bcrypt.genSalt(10, function(err, salt) {
                 if (err) {
