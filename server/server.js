@@ -2,7 +2,6 @@
 
 var express = require('express'),
 	app = express(),
-	path = require('path'),
     variables = require('./config/variables.express'),
     mainRouter = require('./api/main/main.router'),
     userRouter = require('./api/user/user.router');

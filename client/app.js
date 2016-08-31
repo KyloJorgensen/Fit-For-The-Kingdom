@@ -118,6 +118,18 @@ var Data = function(self) {
 	        console.log(error);
 	    });
 	};
+
+	this.update = function() {
+		$.ajax({
+		    type: 'PUT',
+		    contentType: 'application/json',
+		    url: '/user'
+		}).done(function(users) {
+			console.log(users);
+	    }).fail(function(error){
+	        console.log(error);
+	    });
+	};
 };
 
 var ViewModel = function(Data) {
@@ -322,6 +334,10 @@ var ViewModel = function(Data) {
 		}
 		self.currentUserDate.splice(0, self.currentUser().length);
 		self.currentUserDate.push(currentDate);
+	};
+
+	this.update = function() {
+		data.update();
 	};
 
 	data.getUsers(true);
